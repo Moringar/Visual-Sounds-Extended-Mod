@@ -94,7 +94,7 @@ function SDI:render()
 			end
 
 
-            local texturetoUse = self.texCenterSense
+            local texturetoUse = self.texSameSquare
 
 			-- If the indicator is not a additional information
 
@@ -224,27 +224,57 @@ function SDI:render()
 
 
 
-
+			function isoIndicator(x, y, angle)
+				local radianAngle = math.rad(angle)
+				local isoX = x * math.cos(radianAngle) - y * math.sin(radianAngle)
+				local isoY = x * math.sin(radianAngle) + y * math.cos(radianAngle)
+				return isoX, isoY
+			end
 			-- get player vertical position
 			local playerVertical = self:getPlayer():getZ()
+			local playerX = self:getPlayer():getX()
+			local playerY = self:getPlayer():getY()
+			--update sound position while rendering
+
+			local soundX
+			local soundY
+
+			-- if sound is zeds, enable update of last position every frame. Else, use position at emissionTime
+			if sound.typesound == "zeds" or sound.typesound == "player" or sound.typesound == "vehicles" then
+				soundX = sound.objsource:getX()
+				soundY = sound.objsource:getY()
+			else
+				soundX = sound.x
+				soundY = sound.y
+			end
+
+			local xOffset = playerX - soundX
+			local yOffset = playerY - soundY
+
+			local isoX, isoY = isoIndicator(xOffset, yOffset, 45)
+
 			local PlayerZombieVerticalOffset = playerVertical - sound.z
 
 			if PlayerZombieVerticalOffset == 0 then
-				VerticalYOffset = 0
 				isUp = false
 				isDown = false
 			elseif PlayerZombieVerticalOffset > 0 then
-				VerticalYOffset = 250
 				isUp = false
 				isDown = true
 			elseif PlayerZombieVerticalOffset < 0 then
-				VerticalYOffset = -250
 				isUp = true
 				isDown = false
 			end
-				
-				self:DrawTextureAngle(texturetoUse, centerX, centerY + VerticalYOffset, self.angle);
-                ISUIElement.render(self);
+
+
+			local distance = math.sqrt(xOffset^2 + yOffset^2)
+			local offsetMultiplier = 50 / math.sqrt(distance + 1)
+			
+
+
+
+			self:DrawTextureAngle(texturetoUse, (centerX + (-isoX * offsetMultiplier)), (centerY + (-isoY * offsetMultiplier)), self.angle);
+			ISUIElement.render(self);
 
 
 			--vertical offset to identify zombie up or down the player
@@ -253,17 +283,17 @@ function SDI:render()
 
 			--Overlay texture to show UP or DOWN relative to the zombie.
 			if isUp == true then
-				self:DrawTextureAngle(upIndicator, centerX, centerY + VerticalYOffset, 0);
+				self:DrawTextureAngle(upIndicator, (centerX + (-isoX * offsetMultiplier)), (centerY + (-isoY * offsetMultiplier)), 0);
                 ISUIElement.render(self);
 			elseif isDown == true then
-				self:DrawTextureAngle(downIndicator, centerX, centerY + VerticalYOffset, 0);
+				self:DrawTextureAngle(downIndicator, (centerX + (-isoX * offsetMultiplier)), (centerY + (-isoY * offsetMultiplier)), 0);
                 ISUIElement.render(self);
 			end
 
 			--Overlay of the zombie behavior
 			if sound.zombieState == "thump" then
 				local thumpOverlay = self.texThump
-				self:DrawTextureAngle(thumpOverlay, centerX, centerY + VerticalYOffset, self.angle);
+				self:DrawTextureAngle(thumpOverlay, (centerX + (-isoX * offsetMultiplier)), (centerY + (-isoY * offsetMultiplier)),0);
                 ISUIElement.render(self);
 			end
 
@@ -295,10 +325,8 @@ end
 
 function SDI:HandleWorldSound(x,y,z,radius,volume,objsource) 
 	if(SDIGetOption("SDIEnabled") == 1) then
-
 		local manager = ISSearchManager.getManager(getSpecificPlayer(0))
 		local isSearching = manager.isSearchMode
-
 
 		self.SoundSource = objsource
 		local distancetoplayer = IsoUtils.DistanceTo(self:getPlayer():getX(),self:getPlayer():getY(),x,y);
@@ -483,10 +511,10 @@ function SDI:new(player, x, y,width, height, title)
 	o.texLm6 = getTexture("media/textures/lm6.png");
 	o.texLm7 = getTexture("media/textures/lm7.png");
 
-	o.texThump = getTexture("media/textures/thump.png");
+	o.texThump = getTexture("media/textures/thumpBehavior.png");
 
-	o.texUp = getTexture("media/textures/up.png");
-	o.texDown = getTexture("media/textures/down.png");
+	o.texUp = getTexture("media/textures/upArrow.png");
+	o.texDown = getTexture("media/textures/downArrow.png");
 	
     return o;
 end
@@ -515,8 +543,7 @@ end
 function SDI.OnWorldSound(x,y,z,radius,volume,objsource) 
 
 	if(mySDI) then
-			mySDI:HandleWorldSound(x,y,z,radius,volume,objsource) 	
-		--if(objsource ~= nil) and (not instanceof(objsource,"IsoZombie")) and (not instanceof(objsource,"IsoTelevision")) and (not instanceof(objsource,"IsoPlayer")) and (not instanceof(objsource,"IsoRadio"))then objsource:lol() end
+			mySDI:HandleWorldSound(x,y,z,radius,volume,objsource)
 	end
 	
 end
@@ -528,9 +555,7 @@ function SDI.GameStart()
 		
 		local SY = (getCore():getScreenHeight()/2)
 		local SX = (getCore():getScreenWidth()/2)
-		SY = SY - 82.5
-		SX = SX - 82.5
-		mySDI = SDI:new(getPlayer(),SX, SY,165, 165, "")
+		mySDI = SDI:new(getPlayer(),SX, SY,1, 1, "")
 		mySDI:initialise()
 		print("Sound Direction Indicator initialised")
 	else
