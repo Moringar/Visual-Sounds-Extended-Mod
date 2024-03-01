@@ -106,9 +106,7 @@ function SDI:render()
 					texturetoUse = self.texVehi1
 				elseif sound.typesound == "alerts" then
 					texturetoUse = self.texAlert1
-				elseif sound.typesound == "player" then
-					texturetoUse = self.texPlayer1
-				elseif sound.typesound == "lambda" then
+				elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 					texturetoUse = self.texLm1
 				end
 		
@@ -121,9 +119,7 @@ function SDI:render()
 						texturetoUse = self.texCenterSense
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texSameSquare
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texCenterSense
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texCenterSense
 					end
 					
@@ -136,9 +132,7 @@ function SDI:render()
 						texturetoUse = self.texVehi2
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert2
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer2
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm2
 					end
 	
@@ -151,9 +145,7 @@ function SDI:render()
 						texturetoUse = self.texVehi3
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert3
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer3
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm3
 					end
 	
@@ -166,9 +158,7 @@ function SDI:render()
 						texturetoUse = self.texVehi4
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert4
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer4
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm4
 					end
 	
@@ -181,9 +171,7 @@ function SDI:render()
 						texturetoUse = self.texVehi5
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert5
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer5
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm5
 					end
 	
@@ -196,9 +184,7 @@ function SDI:render()
 						texturetoUse = self.texVehi6
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert6
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer6
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm6
 					end
 	
@@ -211,9 +197,7 @@ function SDI:render()
 						texturetoUse = self.texVehi7
 					elseif sound.typesound == "alerts" then
 						texturetoUse = self.texAlert7
-					elseif sound.typesound == "player" then
-						texturetoUse = self.texPlayer7
-					elseif sound.typesound == "lambda" then
+					elseif sound.typesound == "lambda" or sound.typesound == "player"  then
 						texturetoUse = self.texLm7
 					end
 				elseif (self.distancetoPoint > 20.0) then
@@ -297,7 +281,7 @@ function SDI:render()
                 ISUIElement.render(self);
 			end
 
-
+			
 			local TimeRendered = currentTime - sound.emissionTime
 			if TimeRendered >= maxTimeOnScreen then
 				table.remove(self.sounds, _)
@@ -471,13 +455,13 @@ function SDI:new(player, x, y,width, height, title)
 	o.texCenterSense = getTexture("media/textures/SameSquare.png");
 
 
-	o.texPlayer1 = getTexture("media/textures/player1.png");
-	o.texPlayer2 = getTexture("media/textures/player2.png");
-    o.texPlayer3 = getTexture("media/textures/player3.png");
-	o.texPlayer4 = getTexture("media/textures/player4.png");
-    o.texPlayer5 = getTexture("media/textures/player5.png");
-	o.texPlayer6 = getTexture("media/textures/player6.png");
-    o.texPlayer7 = getTexture("media/textures/player7.png");
+	-- o.texPlayer1 = getTexture("media/textures/player1.png");
+	-- o.texPlayer2 = getTexture("media/textures/player2.png");
+    -- o.texPlayer3 = getTexture("media/textures/player3.png");
+	-- o.texPlayer4 = getTexture("media/textures/player4.png");
+    -- o.texPlayer5 = getTexture("media/textures/player5.png");
+	-- o.texPlayer6 = getTexture("media/textures/player6.png");
+    -- o.texPlayer7 = getTexture("media/textures/player7.png");
 
 	o.texMeca1 = getTexture("media/textures/meca1.png");
 	o.texMeca2 = getTexture("media/textures/meca2.png");
