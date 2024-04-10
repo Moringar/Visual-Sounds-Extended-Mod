@@ -1,7 +1,7 @@
 # VISUAL SOUNDS EXTENDED MOD
 ## A project zomboid mot that allows you to see sounds 👁️
 
-[![N|Solid](https://i.imgur.com/1shAWc3.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=3141868620&tscn=1707041543)
+[![N|Solid](https://i.imgur.com/1shAWc3.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=3141868620)
 ### Features
 It can display multiple visual cues according to :
 - Distance and position of the sound
